@@ -1,6 +1,7 @@
 package com.fronchak.animeflix.mappers;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -23,10 +24,10 @@ public class CategoryMapper {
 				.collect(Collectors.toList());
 	}
 	
-	public List<CategoryNameOutputDTO> convertCategoryEntityListToCategoryNameOutputDTOList(List<Category> list) {
+	public Set<CategoryNameOutputDTO> convertCategoryEntitySetToCategoryNameOutputDTOSet(Set<Category> list) {
 		return list.stream()
 				.map((entity) -> new CategoryNameOutputDTO(entity))
-				.collect(Collectors.toList());
+				.collect(Collectors.toSet());
 	}
 	
 	public void copyCategoryInputDTOTOCategoryEntity(CategoryInputDTO dto, Category entity) {
