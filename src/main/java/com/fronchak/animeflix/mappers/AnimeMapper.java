@@ -1,7 +1,5 @@
 package com.fronchak.animeflix.mappers;
 
-import java.util.Set;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -9,7 +7,6 @@ import org.springframework.stereotype.Service;
 import com.fronchak.animeflix.dtos.anime.AnimeInputDTO;
 import com.fronchak.animeflix.dtos.anime.AnimeOutputAllDTO;
 import com.fronchak.animeflix.dtos.anime.AnimeOutputDTO;
-import com.fronchak.animeflix.dtos.category.CategoryNameOutputDTO;
 import com.fronchak.animeflix.entities.Anime;
 
 @Service
@@ -28,8 +25,9 @@ public class AnimeMapper {
 	
 	public AnimeOutputDTO convertAnimeEntityToAnimeOutputDTO(Anime entity) {
 		AnimeOutputDTO dto = new AnimeOutputDTO(entity);
-		Set<CategoryNameOutputDTO> categories = categoryMapper.convertCategoryEntitySetToCategoryNameOutputDTOSet(entity.getCategories());
-		categories.forEach(category -> dto.addCategory(category));
+		entity.getCategories().forEach((category) -> {
+			dto.addCategory(categoryMapper.convertCategoryEntityToCategoryNameOutputDTO(category));
+		});
 		return dto;
 	}
 	
