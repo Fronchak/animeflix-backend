@@ -22,12 +22,14 @@ public class Anime {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
+	
+	@Column(columnDefinition = "TEXT")
 	private String synopsis;
 	
 	@Column(name = "lauch_year")
 	private Integer lauchYear;
 	private Double avaliation;
-	@Column(name = "img_url")
+	@Column(name = "img_url", columnDefinition = "TEXT")
 	private String imgUrl;
 	
 	@ManyToMany
