@@ -16,6 +16,7 @@ import com.fronchak.animeflix.dtos.anime.AnimeOutputAllDTO;
 import com.fronchak.animeflix.dtos.anime.AnimeOutputDTO;
 import com.fronchak.animeflix.dtos.anime.AnimeUpdateDTO;
 import com.fronchak.animeflix.entities.Anime;
+import com.fronchak.animeflix.entities.Category;
 import com.fronchak.animeflix.exceptions.DatabaseException;
 import com.fronchak.animeflix.exceptions.ResourceNotFoundException;
 import com.fronchak.animeflix.mappers.AnimeMapper;
@@ -69,8 +70,10 @@ public class AnimeService {
 	}
 	
 	@Transactional(readOnly = true)
-	public Page<AnimeOutputAllDTO> findPaged(Pageable pageable) {
-		Page<Anime> page = repository.findAll(pageable);
+	public Page<AnimeOutputAllDTO> findPaged(String filter, Long categoryID, Pageable pageable) {
+		Category category = categoryID.equals(0L) ? null : categoryRepository.getReferenceById(categoryID);
+		Page<Anime> page = repository.findPaged(filter, category, pageable);
+		repository.findAnimeWithCategories(page.getContent());
 		return mapper.convertAnimeEntityPageToAnimeOutputAllDTOPage(page);
 	}
 	

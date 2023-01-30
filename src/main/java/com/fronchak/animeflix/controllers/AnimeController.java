@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -52,8 +53,11 @@ public class AnimeController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<Page<AnimeOutputAllDTO>> findPaged(Pageable pageable) {
-		Page<AnimeOutputAllDTO> page = service.findPaged(pageable);
+	public ResponseEntity<Page<AnimeOutputAllDTO>> findPaged(
+			@RequestParam(value = "filter", defaultValue = "") String filter,
+			@RequestParam(value = "categoryId", defaultValue = "0") Long categoryId,
+			Pageable pageable) {
+		Page<AnimeOutputAllDTO> page = service.findPaged(filter, categoryId, pageable);
 		return ResponseEntity.ok().body(page);
 	}
 	

@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.fronchak.animeflix.dtos.user.UserInputDTO;
 import com.fronchak.animeflix.dtos.user.UserOutputDTO;
 import com.fronchak.animeflix.entities.User;
+import com.fronchak.animeflix.exceptions.ResourceNotFoundException;
 import com.fronchak.animeflix.mappers.UserMapper;
 import com.fronchak.animeflix.repositories.RoleRepository;
 import com.fronchak.animeflix.repositories.UserRepository;
@@ -42,6 +43,13 @@ public class UserService implements UserDetailsService {
 		entity.setEmail(dto.getEmail());
 		entity.setPassword(passwordEncoder.encode(dto.getPassword()));
 		entity.addRoles(roleRepository.getReferenceById(1L));
+	}
+	
+	@Transactional(readOnly = true)
+	public UserOutputDTO findById(Long id) {
+		User entity = repository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException("User", id.toString()));
+		return mapper.convertEntityUserToUserOutputDTO(entity);
 	}
 
 	@Transactional

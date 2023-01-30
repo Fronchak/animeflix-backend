@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.fronchak.animeflix.dtos.anime.AnimeInputDTO;
 import com.fronchak.animeflix.dtos.anime.AnimeOutputAllDTO;
 import com.fronchak.animeflix.dtos.anime.AnimeOutputDTO;
+import com.fronchak.animeflix.dtos.category.CategoryNameOutputDTO;
 import com.fronchak.animeflix.entities.Anime;
 
 @Service
@@ -20,7 +21,9 @@ public class AnimeMapper {
 	}
 	
 	private AnimeOutputAllDTO convertAnimeEntityToAnimeOutputAllDTO(Anime entity) {
-		return new AnimeOutputAllDTO(entity);
+		AnimeOutputAllDTO dto = new AnimeOutputAllDTO(entity);
+		entity.getCategories().forEach((category) -> dto.addCategory(new CategoryNameOutputDTO(category)) );
+		return dto;
 	}
 	
 	public AnimeOutputDTO convertAnimeEntityToAnimeOutputDTO(Anime entity) {

@@ -1,7 +1,10 @@
 package com.fronchak.animeflix.dtos.anime;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.fronchak.animeflix.dtos.category.CategoryNameOutputDTO;
 import com.fronchak.animeflix.entities.Anime;
 
 public class AnimeOutputAllDTO implements Serializable {
@@ -12,6 +15,7 @@ public class AnimeOutputAllDTO implements Serializable {
 	private String name;
 	private Double avaliation;
 	private String imgUrl;
+	private List<CategoryNameOutputDTO> categories = new ArrayList<>();
 	
 	public AnimeOutputAllDTO() {}
 	
@@ -56,5 +60,13 @@ public class AnimeOutputAllDTO implements Serializable {
 
 	public void setImgUrl(String imgUrl) {
 		this.imgUrl = imgUrl;
+	}
+
+	public List<CategoryNameOutputDTO> getCategories() {
+		return categories;
+	}
+
+	public void addCategory(CategoryNameOutputDTO category) {
+		categories.add(category);
 	}
 }
