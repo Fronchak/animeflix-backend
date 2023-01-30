@@ -12,7 +12,6 @@ public class AnimeOutputDTO extends AnimeOutputAllDTO {
 
 	private String synopsis;
 	private Integer lauchYear;
-	private Set<CategoryNameOutputDTO> categories = new HashSet<>();
 	
 	public AnimeOutputDTO() {
 		super();
@@ -44,13 +43,5 @@ public class AnimeOutputDTO extends AnimeOutputAllDTO {
 
 	public void setLauchYear(Integer lauchYear) {
 		this.lauchYear = lauchYear;
-	}
-
-	public Set<CategoryNameOutputDTO> getCategories() {
-		return categories;
-	}
-
-	public void addCategory(CategoryNameOutputDTO category) {
-		categories.add(category);
 	}
 }
