@@ -30,7 +30,7 @@ public class AnimeInputDTO implements Serializable {
 	@Max(value = 10, message = "Anime's avaliation cannot be greater than 10")
 	private Double avaliation;
 	
-	@NotNull(message = "Anime's image must be specified")
+	@NotBlank(message = "Anime's image cannot be empty")
 	private String imgUrl;
 	
 	@NotNull(message = "Anime's categories must be specified")

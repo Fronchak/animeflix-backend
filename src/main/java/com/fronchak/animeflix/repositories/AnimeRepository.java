@@ -24,4 +24,6 @@ public interface AnimeRepository extends JpaRepository<Anime, Long> {
 	
 	@Query("SELECT obj FROM Anime obj JOIN FETCH obj.categories WHERE obj IN :animes")
 	List<Anime> findAnimeWithCategories(List<Anime> animes);
+	
+	Anime findByName (String name);
 }

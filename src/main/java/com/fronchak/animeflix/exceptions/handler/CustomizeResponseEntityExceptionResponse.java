@@ -50,7 +50,7 @@ public class CustomizeResponseEntityExceptionResponse {
 		HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
 		ValidationExceptionResponse response = (ValidationExceptionResponse) makeResponse(
 				new ValidationExceptionResponse(), e, request, status, "Validation error");	
-		
+		response.setMessage("Invalid data");
 		for(FieldError error : e.getBindingResult().getFieldErrors()) {
 			response.addError(error.getField(), error.getDefaultMessage());
 		}
