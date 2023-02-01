@@ -37,10 +37,15 @@ public class AnimeService {
 	
 	@Transactional
 	public AnimeOutputDTO save(AnimeInsertDTO dto) {
-		Anime entity = new Anime();
-		copyDTOToEntity(dto, entity);
-		entity = repository.save(entity);
-		return mapper.convertAnimeEntityToAnimeOutputDTO(entity);
+		try {
+			Anime entity = new Anime();
+			copyDTOToEntity(dto, entity);
+			entity = repository.save(entity);
+			return mapper.convertAnimeEntityToAnimeOutputDTO(entity);	
+		}
+		catch(EntityNotFoundException e) {
+			throw new ResourceNotFoundException("Error trying to find category by ID");
+		}
 	}
 	
 	private void copyDTOToEntity(AnimeInputDTO dto, Anime entity) {

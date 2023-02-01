@@ -8,4 +8,5 @@ import com.fronchak.animeflix.entities.Category;
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
+	Category findByNameIgnoreCase(String name);
 }
