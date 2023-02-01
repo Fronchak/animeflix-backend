@@ -58,8 +58,8 @@ public class CategoryService {
 	}
 	
 	@Transactional(readOnly = true)
-	public List<CategoryOutputDTO> findAll() {
-		List<Category> list = repository.findAll();
+	public List<CategoryOutputDTO> findAll(String filter) {
+		List<Category> list = repository.findAll(filter);
 		return mapper.convertCategoryEntityListToCategoryOutputDTOList(list);
 	}
 	
