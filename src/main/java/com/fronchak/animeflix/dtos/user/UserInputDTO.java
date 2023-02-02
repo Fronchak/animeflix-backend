@@ -1,17 +1,29 @@
 package com.fronchak.animeflix.dtos.user;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 public class UserInputDTO implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
+	@NotNull(message = "Client's email must be specified")
+	@Email(message = "Invalid email format, please try a valid email", 
+	regexp = "^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$")
 	private String email;
+	
+	@NotBlank(message = "Password cannot be empty")
+	@Size(min = 6, message = "Password must have at least 6 letters")
 	private String password;
 	
-	private Set<Long> roles = new HashSet<>();
+	@NotBlank(message = "Password cannot be empty")
+	@Size(min = 6, message = "Password must have at least 6 letters")
+	private String confirmPassword;	
 	
 	public String getEmail() {
 		return email;
@@ -29,11 +41,11 @@ public class UserInputDTO implements Serializable {
 		this.password = password;
 	}
 	
-	public Set<Long> getRoles() {
-		return roles;
+	public String getConfirmPassword() {
+		return confirmPassword;
 	}
 	
-	public void addRole(Long roleId) {
-		roles.add(roleId);
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
 	}
 }

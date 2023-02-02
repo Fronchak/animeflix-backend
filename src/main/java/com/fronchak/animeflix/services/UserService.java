@@ -1,5 +1,7 @@
 package com.fronchak.animeflix.services;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -9,8 +11,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fronchak.animeflix.dtos.user.UserInputDTO;
+import com.fronchak.animeflix.dtos.user.UserInsertDTO;
 import com.fronchak.animeflix.dtos.user.UserOutputDTO;
+import com.fronchak.animeflix.dtos.user.UserUpdateDTO;
 import com.fronchak.animeflix.entities.User;
+import com.fronchak.animeflix.exceptions.InvalidPasswordException;
 import com.fronchak.animeflix.exceptions.ResourceNotFoundException;
 import com.fronchak.animeflix.mappers.UserMapper;
 import com.fronchak.animeflix.repositories.RoleRepository;
@@ -32,7 +37,7 @@ public class UserService implements UserDetailsService {
 	private BCryptPasswordEncoder passwordEncoder;
 	
 	@Transactional
-	public UserOutputDTO save(UserInputDTO inputDTO) {
+	public UserOutputDTO save(UserInsertDTO inputDTO) {
 		User entity = new User();
 		copyDTOToEntity(inputDTO, entity);
 		entity = repository.save(entity);
@@ -50,6 +55,22 @@ public class UserService implements UserDetailsService {
 		User entity = repository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("User", id.toString()));
 		return mapper.convertEntityUserToUserOutputDTO(entity);
+	}
+	
+	@Transactional
+	public UserOutputDTO update(UserUpdateDTO updateDTO, Long id) {
+		try {
+			User user = repository.getReferenceById(id);
+			if(!passwordEncoder.matches(updateDTO.getOldPassword(), user.getPassword())) {
+				throw new InvalidPasswordException("Invalid password");
+			}
+			copyDTOToEntity(updateDTO, user);
+			user = repository.save(user);
+			return mapper.convertEntityUserToUserOutputDTO(user);
+		}
+		catch(EntityNotFoundException e) {
+			throw new ResourceNotFoundException("User", id.toString());
+		}
 	}
 
 	@Transactional

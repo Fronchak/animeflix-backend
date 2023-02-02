@@ -12,6 +12,8 @@ import org.springframework.web.context.request.WebRequest;
 
 import com.fronchak.animeflix.exceptions.DatabaseException;
 import com.fronchak.animeflix.exceptions.ExceptionResponse;
+import com.fronchak.animeflix.exceptions.InvalidPasswordException;
+import com.fronchak.animeflix.exceptions.OAuthCustomError;
 import com.fronchak.animeflix.exceptions.ResourceNotFoundException;
 import com.fronchak.animeflix.exceptions.ValidationExceptionResponse;
 
@@ -65,4 +67,10 @@ public class CustomizeResponseEntityExceptionResponse {
 		return ResponseEntity.status(status).body(response);
 	}
 	*/
+	
+	@ExceptionHandler(InvalidPasswordException.class)
+	public ResponseEntity<OAuthCustomError> handleInvalidPasswordException(InvalidPasswordException e, WebRequest request) {
+		OAuthCustomError response = new OAuthCustomError("Invalid password", e.getMessage());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+	}
 }
