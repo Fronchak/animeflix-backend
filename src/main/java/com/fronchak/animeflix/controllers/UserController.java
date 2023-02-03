@@ -6,7 +6,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -33,12 +32,6 @@ public class UserController {
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(outputDTO.getId()).toUri();
 		return ResponseEntity.created(uri).body(outputDTO);	
-	}
-	
-	@GetMapping(value = "/{id}")
-	public ResponseEntity<UserOutputDTO> findById(@PathVariable Long id) {
-		UserOutputDTO outputDTO = service.findById(id);
-		return ResponseEntity.ok().body(outputDTO);
 	}
 	
 	@PutMapping(value = "/{id}")
